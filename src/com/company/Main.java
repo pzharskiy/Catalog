@@ -22,7 +22,7 @@ public class Main {
 	// write your code here
 
         Catalog catalog=new Catalog("d:/catalogtest2/");
-        catalog.print();
+        catalog.printToFile();
 
       }
 }

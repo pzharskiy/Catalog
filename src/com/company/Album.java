@@ -63,6 +63,35 @@ public class Album {
         +"\nгод: " +tag.getFirst(FieldKey.YEAR)
         +"\nпродолжительность: " +a.getTrackLength() +" c " +"\n");
         }
+        //new SimpleDateFormat("hh:mm:ss").format(new Date(TimeUnit.SECONDS.toMillis(a.getTrackLength())))
+    }
+
+    public String printToFile()
+    {
+        String html = "" +title+"\n";
+        html+=" <p>\n ";
+        for (File song: songs
+                ) {
+            AudioFile audioFile = null;
+            try {
+                audioFile = AudioFileIO.read(song);
+            } catch (CannotReadException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TagException e) {
+                e.printStackTrace();
+            } catch (ReadOnlyFileException e) {
+                e.printStackTrace();
+            } catch (InvalidAudioFrameException e) {
+                e.printStackTrace();
+            }
+            Tag tag = audioFile.getTag();
+            AudioHeader a= audioFile.getAudioHeader(); ///??
+            html+=""+tag.getFirst(FieldKey.TITLE)+" "+a.getTrackLength() +" c " +"<a>"+song.getPath()+"</a> <br>";
+        }
+        html+="</p>\n";
+        return html;
     }
 
     public String getTitle() {

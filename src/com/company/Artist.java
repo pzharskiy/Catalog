@@ -54,6 +54,18 @@ public class Artist {
         }
     }
 
+    public String printToFile()
+    {
+        String html = " <h1>\n "+name+" </h1>\n ";
+        html+=" <h2>\n ";
+        for (Album album: albums
+                ) {
+            html+=album.printToFile();
+        }
+        html+="</h2>\n";
+        return html;
+    }
+
     public void addAlbum(File directoryItem)
     {
         if (albums.contains(new Album(directoryItem)))

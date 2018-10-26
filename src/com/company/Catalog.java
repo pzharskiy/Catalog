@@ -9,7 +9,9 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class Catalog {
     }
 
     public void print() {
+
         if (artists.isEmpty()) {
             System.out.println("List of artists is empty");
         } else {
@@ -34,6 +37,24 @@ public class Catalog {
         }
     }
 
+    public void printToFile()
+    {
+
+        String html = " <div>\n";
+        for (Artist artist : artists
+                ) {
+            html+=artist.printToFile();
+        }
+        html+="</div>\n";
+        File f = new File("D:\\test.html");
+        try (BufferedWriter bw = new BufferedWriter((new FileWriter(f)))) {
+            bw.write(html);
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public void add(File directoryItem) {
         artists.add(new Artist(directoryItem));
     }
