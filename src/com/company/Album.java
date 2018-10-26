@@ -39,8 +39,8 @@ public class Album {
         songs.add(directoryItem);
     }
 
-    public void print()
-    {
+    public void print() {
+        System.out.println(title);
         for (File song: songs
              ) {
                     AudioFile audioFile = null;
@@ -58,25 +58,41 @@ public class Album {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-        AudioHeader a= audioFile.getAudioHeader(); ///???
-        System.out.println("artist: "+
-        tag.getFirst(FieldKey.ARTIST) +
-        "\nальбом: " + tag.getFirst(FieldKey.ALBUM)
-                +"\nназвание: " +tag.getFirst(FieldKey.TITLE)
-        +"\nсомментарии: " +tag.getFirst(FieldKey.COMMENT)
+        AudioHeader a= audioFile.getAudioHeader(); ///??
+        System.out.println("название: " +tag.getFirst(FieldKey.TITLE)
         +"\nгод: " +tag.getFirst(FieldKey.YEAR)
-        +"\nтрек: " +tag.getFirst(FieldKey.TRACK)
-        +"\nдиск: " +tag.getFirst(FieldKey.DISC_NO)
-        +"\nкомпоизтор: " +tag.getFirst(FieldKey.COMPOSER)
-        +"\nартист-сорт: " +tag.getFirst(FieldKey.ARTIST_SORT)
-                +"\n"
-        );
+        +"\nпродолжительность: " +a.getTrackLength() +" c " +"\n");
         }
     }
 
-    public String getAlbum() {
+    public String getTitle() {
         return title;
     }
 
+    public void addSong(File directoryItem)
+    {
+        songs.add(directoryItem);
+    }
 
+    public boolean equals(Object object) {
+        if (object == this)
+            return true;
+
+     /* furniture ссылается на null */
+
+        if (object == null)
+            return false;
+
+     /* Удостоверимся, что ссылки имеют тот же самый тип */
+
+        if (!(getClass() == object.getClass()))
+            return false;
+        else {
+            Album tmp = (Album) object;
+            if (tmp.title.equals(this.title))
+                return true;
+            else
+                return false;
+        }
+    }
 }

@@ -17,8 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Artist {
-    String name;
-    List<Album> albums=new ArrayList<>();
+    private String name;
+    private List<Album> albums=new ArrayList<>();
+
+    public String getName() {
+        return name;
+    }
 
     public Artist(File directoryItem) {
         AudioFile audioFile = null;
@@ -43,21 +47,73 @@ public class Artist {
 
     public void print()
     {
+        System.out.println(name);
         for (Album album: albums
              ) {
             album.print();
         }
     }
 
-//    public void addAlbum()
-//    {
-//        if (albums.contains(наш новый альбом))
-//        {
-//            albums.getAlbum(наш новый альбом).addSong();
-//        }
-//        else
-//        {
-//
-//        }
-//    }
+    public void addAlbum(File directoryItem)
+    {
+        if (albums.contains(new Album(directoryItem)))
+        {
+            //System.out.println("Существующий альбом");
+            getAlbum(directoryItem).addSong(directoryItem);
+        }
+        else
+        {
+            //System.out.println("новый альбом");
+            albums.add(new Album(directoryItem));
+        }
+    }
+
+    public Album getAlbum(File directoryItem)
+    {
+        AudioFile audioFile = null;
+        try {
+            audioFile = AudioFileIO.read(directoryItem);
+        } catch (CannotReadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TagException e) {
+            e.printStackTrace();
+        } catch (ReadOnlyFileException e) {
+            e.printStackTrace();
+        } catch (InvalidAudioFrameException e) {
+            e.printStackTrace();
+        }
+        Tag tag = audioFile.getTag();
+
+        for (Album album : albums
+                ) {
+            if (album.getTitle().equals(tag.getFirst(FieldKey.ALBUM))) {
+                return album;
+            }
+        }
+        return null;
+    }
+
+    public boolean equals(Object object) {
+        if (object == this)
+            return true;
+
+     /* furniture ссылается на null */
+
+        if (object == null)
+            return false;
+
+     /* Удостоверимся, что ссылки имеют тот же самый тип */
+
+        if (!(getClass() == object.getClass()))
+            return false;
+        else {
+            Artist tmp = (Artist) object;
+            if (tmp.name.equals(this.name))
+                return true;
+            else
+                return false;
+        }
+    }
 }
