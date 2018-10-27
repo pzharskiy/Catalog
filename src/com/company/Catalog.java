@@ -37,26 +37,25 @@ public class Catalog {
         }
     }
 
-    public void printToFile()
-    {
+    public void printToFile() {
 
-        String html = " <!DOCTYPE html>\n<html>\n<meta charset=\"utf-8\"\n<title></title>\n"+
-                "<style>\np{\n padding-left: 20px;\n}\nh4{\n padding-left: 10px;\n}\n</style>\n"+
+        String html = " <!DOCTYPE html>\n<html>\n<meta charset=\"utf-8\"\n<title></title>\n" +
+                "<style>\np{\n padding-left: 20px;\n}\nh4{\n padding-left: 10px;\n}\n</style>\n" +
                 "</head>\n<body>\n<div>\n";
         for (Artist artist : artists
                 ) {
-            html+=artist.printToFile();
+            html += artist.printToFile();
         }
-        html+="</div>\n</body>\n</html>";
+        html += "</div>\n</body>\n</html>";
         File f = new File("D:\\test.html");
         try (BufferedWriter bw = new BufferedWriter((new FileWriter(f)))) {
             bw.write(html);
 
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void add(File directoryItem) {
         artists.add(new Artist(directoryItem));
     }
@@ -70,6 +69,8 @@ public class Catalog {
                 obhod(directoryItem.getPath(), list);
             }
             if (directoryItem.isFile()) {
+                //Проверка расширения файла
+                if (!isMP3(directoryItem)) {continue;}
                 //System.out.println("File= " + directoryItem.getName());
                 if (artists.contains(new Artist(directoryItem))) //переопределить equels для сравнения
                 {
@@ -111,5 +112,19 @@ public class Catalog {
             }
         }
         return null;
+    }
+
+    private boolean isMP3(File directoryItem)
+    {
+        String extension = "";
+        int i = directoryItem.getName().lastIndexOf('.');
+        if (i > 0) {
+            extension = directoryItem.getName().substring(i + 1);
+        }
+        if (extension.equals("mp3"))
+        {
+            return true;
+        }
+        else return false;
     }
 }
