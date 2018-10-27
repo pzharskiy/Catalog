@@ -56,13 +56,13 @@ public class Artist {
 
     public String printToFile()
     {
-        String html = " <h1>\n "+name+" </h1>\n ";
-        html+=" <h2>\n ";
+        String html = " <h3>\n "+name+" </h3>\n ";
+        html+="<h4>\n ";
         for (Album album: albums
                 ) {
             html+=album.printToFile();
         }
-        html+="</h2>\n";
+        html+="</h4>\n";
         return html;
     }
 

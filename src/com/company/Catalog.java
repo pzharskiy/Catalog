@@ -40,12 +40,14 @@ public class Catalog {
     public void printToFile()
     {
 
-        String html = " <div>\n";
+        String html = " <!DOCTYPE html>\n<html>\n<meta charset=\"utf-8\"\n<title></title>\n"+
+                "<style>\np{\n padding-left: 20px;\n}\nh4{\n padding-left: 10px;\n}\n</style>\n"+
+                "</head>\n<body>\n<div>\n";
         for (Artist artist : artists
                 ) {
             html+=artist.printToFile();
         }
-        html+="</div>\n";
+        html+="</div>\n</body>\n</html>";
         File f = new File("D:\\test.html");
         try (BufferedWriter bw = new BufferedWriter((new FileWriter(f)))) {
             bw.write(html);
