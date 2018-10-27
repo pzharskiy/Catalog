@@ -61,7 +61,7 @@ public class Album {
         AudioHeader a= audioFile.getAudioHeader(); ///??
         System.out.println("название: " +tag.getFirst(FieldKey.TITLE)
         +"\nгод: " +tag.getFirst(FieldKey.YEAR)
-        +"\nпродолжительность: " +a.getTrackLength() +" c " +"\n");
+        +"\nпродолжительность: " +Time.getDurationString(a.getTrackLength()) +"\n");
         }
         //new SimpleDateFormat("hh:mm:ss").format(new Date(TimeUnit.SECONDS.toMillis(a.getTrackLength())))
     }
@@ -88,7 +88,7 @@ public class Album {
             }
             Tag tag = audioFile.getTag();
             AudioHeader a= audioFile.getAudioHeader(); ///??
-            html+=""+tag.getFirst(FieldKey.TITLE)+" "+a.getTrackLength() +" c " +"<a>"+song.getPath()+"</a> <br>";
+            html+=""+tag.getFirst(FieldKey.TITLE)+" "+Time.getDurationString(a.getTrackLength())+" " +"<a href="+song.getPath()+">"+song.getPath()+"</a> <br>";
         }
         html+="</p>\n";
         return html;
