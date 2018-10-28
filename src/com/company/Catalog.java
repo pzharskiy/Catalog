@@ -127,4 +127,18 @@ public class Catalog {
         }
         else return false;
     }
+
+    public void findDublicates()
+    {
+        System.out.println("Дубликаты");
+        if (artists.isEmpty()) {
+            System.out.println("List of artists is empty");
+        } else {
+            for (Artist artist : artists
+                    ) {
+                artist.findDublicates();
+            }
+        }
+    }
+
 }

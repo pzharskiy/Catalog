@@ -22,8 +22,9 @@ public class Main {
 	// write your code here
 
         Catalog catalog=new Catalog("d:/catalogtest2/");
-        catalog.printToFile();
+        //catalog.printToFile();
         catalog.print();
+        //catalog.findDublicates();
       }
 }
 

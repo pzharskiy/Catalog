@@ -128,4 +128,12 @@ public class Artist {
                 return false;
         }
     }
+
+    public void findDublicates()
+    {
+        for (Album album: albums
+                ) {
+            album.findDublicates();
+        }
+    }
 }

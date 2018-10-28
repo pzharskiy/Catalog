@@ -12,23 +12,22 @@ import org.jaudiotagger.tag.TagException;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 
-public class Album {
-    String title;
-    List<Song> songs=new ArrayList<>();
+public class Song {
+    private File song;
+    private String title;
+    private int year;
+    private String duration;
+    private String checkSum;
 
-    public Album(File directoryItem) {
+
+
+    public Song(File directoryItem) {
+        this.song = directoryItem;
+
         AudioFile audioFile = null;
         try {
-            audioFile = AudioFileIO.read(directoryItem);
+            audioFile = AudioFileIO.read(song);
         } catch (CannotReadException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -41,39 +40,52 @@ public class Album {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-        this.title = tag.getFirst(FieldKey.ALBUM);
-        songs.add(new Song(directoryItem));
-    }
+        AudioHeader audioHeader= audioFile.getAudioHeader(); ///?
 
-    public void print() {
-        System.out.println(title);
-        for (Song song: songs
-             ) {
-                    song.print();
+        try {
+            this.checkSum = (new MD5Checksum().getMD5Checksum(song.getPath()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        this.title = tag.getFirst(FieldKey.TITLE);
+        this.year = Integer.valueOf(tag.getFirst(FieldKey.YEAR));
+        this.duration = Time.getDurationString(audioHeader.getTrackLength());
     }
-
+    public void print()
+    {
+        System.out.println("название: " +title
+                +"\nгод: " +year
+                +"\nпродолжительность: " +duration +"\ncheckSum: "+checkSum + "\n");
+    }
     public String printToFile()
     {
-        String html = "" +title+"\n";
-        html+=" <p>\n ";
-        for (Song song: songs
-                ) {
+        String html = null;
+        return html+=""+title+" "+duration+" " +"<a href="+song.getPath()+">"+song.getPath()+"</a> <br>";
+    }
 
-            html+=song.printToFile();
-        }
-        html+="</p>\n";
-        return html;
+    public File getSong() {
+        return song;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void addSong(File directoryItem)
+    public int getYear() {
+        return year;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public String getCheckSum() {
+        return checkSum;
+    }
+
+    public String getPath()
     {
-        songs.add(new Song(directoryItem));
+        return song.getPath();
     }
 
     public boolean equals(Object object) {
@@ -90,21 +102,11 @@ public class Album {
         if (!(getClass() == object.getClass()))
             return false;
         else {
-            Album tmp = (Album) object;
-            if (tmp.title.equals(this.title))
+            Song tmp = (Song) object;
+            if (tmp.checkSum.equals(this.checkSum))
                 return true;
             else
                 return false;
         }
-    }
-
-    public void findDublicates()
-    {
-
-       // HashSet<File> dublicates=new LinkedHashSet<>(songs);
-       // System.out.println(dublicates);
-
-        //пока группирует по альбому, а не по нахванию трека
-
     }
 }
