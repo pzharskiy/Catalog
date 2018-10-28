@@ -23,7 +23,7 @@ public class Catalog {
     public Catalog(String directory) {
         File folder = new File(directory);
         File listOfFiles[] = folder.listFiles();
-        obhod(directory, listOfFiles); //Рекурсивный обход всего каталога
+        treeTraversal(directory, listOfFiles); //Рекурсивный обход всего каталога
     }
 
     public void print() {
@@ -61,14 +61,14 @@ public class Catalog {
         artists.add(new Artist(directoryItem));
     }
 
-    private void obhod(String path, File listOfFiles[]) {
+    private void treeTraversal(String path, File listOfFiles[]) {
         for (File directoryItem : listOfFiles) {
             //Если пункт каталога другой каталог, то вызываем рекурсивную функцию
             if (directoryItem.isDirectory()) {
                 //System.out.println("DIR= " + directoryItem.getName() + " " + directoryItem.length());
                 File folder = new File(directoryItem.getPath());
                 File list[] = folder.listFiles();
-                obhod(directoryItem.getPath(), list);
+                treeTraversal(directoryItem.getPath(), list);
             }
             //Если пункт каталога файл, то проверяем расширение (необходимо mp3)
             if (directoryItem.isFile()) {
