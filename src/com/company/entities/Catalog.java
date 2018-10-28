@@ -1,5 +1,6 @@
-package com.company;
+package com.company.entities;
 
+import com.company.entities.Artist;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -70,7 +71,9 @@ public class Catalog {
             }
             if (directoryItem.isFile()) {
                 //Проверка расширения файла
-                if (!isMP3(directoryItem)) {continue;}
+                if (!isMP3(directoryItem)) {
+                    continue;
+                }
                 //System.out.println("File= " + directoryItem.getName());
                 if (artists.contains(new Artist(directoryItem))) //переопределить equels для сравнения
                 {
@@ -114,22 +117,18 @@ public class Catalog {
         return null;
     }
 
-    private boolean isMP3(File directoryItem)
-    {
+    private boolean isMP3(File directoryItem) {
         String extension = "";
         int i = directoryItem.getName().lastIndexOf('.');
         if (i > 0) {
             extension = directoryItem.getName().substring(i + 1);
         }
-        if (extension.equals("mp3"))
-        {
+        if (extension.equals("mp3")) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
-    public void findDublicates()
-    {
+    public void findDublicates() {
         System.out.println("Дубликаты");
         if (artists.isEmpty()) {
             System.out.println("List of artists is empty");

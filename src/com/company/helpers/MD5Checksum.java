@@ -1,4 +1,5 @@
-package com.company;
+package com.company.helpers;
+
 import java.io.*;
 import java.security.MessageDigest;
 

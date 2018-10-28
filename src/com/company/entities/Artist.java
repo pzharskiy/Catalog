@@ -1,4 +1,4 @@
-package com.company;
+package com.company.entities;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -9,79 +9,70 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Artist {
     private String name;
-    private List<Album> albums=new ArrayList<>();
+    private List<Album> albums = new ArrayList<>();
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public Artist(File directoryItem) {
+    Artist(File directoryItem) {
         AudioFile audioFile = null;
-            try {
-                audioFile = AudioFileIO.read(directoryItem);
-            } catch (CannotReadException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (TagException e) {
-                e.printStackTrace();
-            } catch (ReadOnlyFileException e) {
-                e.printStackTrace();
-            } catch (InvalidAudioFrameException e) {
-                e.printStackTrace();
-            }
-            Tag tag = audioFile.getTag();
-            this.name = tag.getFirst(FieldKey.ARTIST);
-            albums.add(new Album(directoryItem));
+        try {
+            audioFile = AudioFileIO.read(directoryItem);
+        } catch (CannotReadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TagException e) {
+            e.printStackTrace();
+        } catch (ReadOnlyFileException e) {
+            e.printStackTrace();
+        } catch (InvalidAudioFrameException e) {
+            e.printStackTrace();
+        }
+        Tag tag = audioFile.getTag();
+        this.name = tag.getFirst(FieldKey.ARTIST);
+        albums.add(new Album(directoryItem));
 
     }
 
-    public void print()
-    {
+    void print() {
         System.out.println(name);
-        for (Album album: albums
-             ) {
+        for (Album album : albums
+                ) {
             album.print();
         }
     }
 
-    public String printToFile()
-    {
-        String html = " <h3>\n "+name+" </h3>\n ";
-        html+="<h4>\n ";
-        for (Album album: albums
+    String printToFile() {
+        String html = " <h3>\n " + name + " </h3>\n ";
+        html += "<h4>\n ";
+        for (Album album : albums
                 ) {
-            html+=album.printToFile();
+            html += album.printToFile();
         }
-        html+="</h4>\n";
+        html += "</h4>\n";
         return html;
     }
 
-    public void addAlbum(File directoryItem)
-    {
-        if (albums.contains(new Album(directoryItem)))
-        {
+    void addAlbum(File directoryItem) {
+        if (albums.contains(new Album(directoryItem))) {
             //System.out.println("Существующий альбом");
             getAlbum(directoryItem).addSong(directoryItem);
-        }
-        else
-        {
+        } else {
             //System.out.println("новый альбом");
             albums.add(new Album(directoryItem));
         }
     }
 
-    public Album getAlbum(File directoryItem)
-    {
+    Album getAlbum(File directoryItem) {
         AudioFile audioFile = null;
         try {
             audioFile = AudioFileIO.read(directoryItem);
@@ -129,9 +120,8 @@ public class Artist {
         }
     }
 
-    public void findDublicates()
-    {
-        for (Album album: albums
+    void findDublicates() {
+        for (Album album : albums
                 ) {
             album.findDublicates();
         }

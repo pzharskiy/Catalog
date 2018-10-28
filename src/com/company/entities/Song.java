@@ -1,5 +1,7 @@
-package com.company;
+package com.company.entities;
 
+import com.company.helpers.MD5Checksum;
+import com.company.helpers.Time;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
@@ -19,10 +21,11 @@ public class Song {
     private int year;
     private String duration;
     private String checkSum;
+    private String artist;
+    private String album;
 
 
-
-    public Song(File directoryItem) {
+    Song(File directoryItem) {
         this.song = directoryItem;
 
         AudioFile audioFile = null;
@@ -40,7 +43,7 @@ public class Song {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-        AudioHeader audioHeader= audioFile.getAudioHeader(); ///?
+        AudioHeader audioHeader = audioFile.getAudioHeader(); ///?
 
         try {
             this.checkSum = (new MD5Checksum().getMD5Checksum(song.getPath()));
@@ -50,41 +53,43 @@ public class Song {
         this.title = tag.getFirst(FieldKey.TITLE);
         this.year = Integer.valueOf(tag.getFirst(FieldKey.YEAR));
         this.duration = Time.getDurationString(audioHeader.getTrackLength());
-    }
-    public void print()
-    {
-        System.out.println("название: " +title
-                +"\nгод: " +year
-                +"\nпродолжительность: " +duration +"\ncheckSum: "+checkSum + "\n");
-    }
-    public String printToFile()
-    {
-        String html = null;
-        return html+=""+title+" "+duration+" " +"<a href="+song.getPath()+">"+song.getPath()+"</a> <br>";
+        ///////////////////////////////
+        this.album = tag.getFirst(FieldKey.ALBUM);
+        this.artist = tag.getFirst(FieldKey.ARTIST);
     }
 
-    public File getSong() {
+    void print() {
+        System.out.println("название: " + title
+                + "\nгод: " + year
+                + "\nпродолжительность: " + duration + "\ncheckSum: " + checkSum + "\n");
+    }
+
+    String printToFile() {
+        String html = null;
+        return html += "" + title + " " + duration + " " + "<a href=" + song.getPath() + ">" + song.getPath() + "</a> <br>";
+    }
+
+    File getSong() {
         return song;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public int getYear() {
+    int getYear() {
         return year;
     }
 
-    public String getDuration() {
+    String getDuration() {
         return duration;
     }
 
-    public String getCheckSum() {
+    String getCheckSum() {
         return checkSum;
     }
 
-    public String getPath()
-    {
+    String getPath() {
         return song.getPath();
     }
 
@@ -108,5 +113,21 @@ public class Song {
             else
                 return false;
         }
+    }
+
+    public int hashCode() {
+        int hash = title.hashCode();
+//        int hash=checkSum.hashCode();
+        return hash;
+    }
+
+    //Возможно стоит удалить их
+
+    String getArtist() {
+        return artist;
+    }
+
+    String getAlbum() {
+        return album;
     }
 }

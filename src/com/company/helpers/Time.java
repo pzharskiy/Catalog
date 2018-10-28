@@ -1,4 +1,4 @@
-package com.company;
+package com.company.helpers;
 
 public class Time {
     public static String getDurationString(int seconds) {
