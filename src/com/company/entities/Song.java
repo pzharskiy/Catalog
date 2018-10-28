@@ -117,7 +117,6 @@ public class Song {
 
     public int hashCode() {
         int hash = title.hashCode();
-//        int hash=checkSum.hashCode();
         return hash;
     }
 

@@ -23,7 +23,7 @@ public class Catalog {
     public Catalog(String directory) {
         File folder = new File(directory);
         File listOfFiles[] = folder.listFiles();
-        obhod(directory, listOfFiles);
+        obhod(directory, listOfFiles); //Рекурсивный обход всего каталога
     }
 
     public void print() {
@@ -63,26 +63,28 @@ public class Catalog {
 
     private void obhod(String path, File listOfFiles[]) {
         for (File directoryItem : listOfFiles) {
+            //Если пункт каталога другой каталог, то вызываем рекурсивную функцию
             if (directoryItem.isDirectory()) {
                 //System.out.println("DIR= " + directoryItem.getName() + " " + directoryItem.length());
                 File folder = new File(directoryItem.getPath());
                 File list[] = folder.listFiles();
                 obhod(directoryItem.getPath(), list);
             }
+            //Если пункт каталога файл, то проверяем расширение (необходимо mp3)
             if (directoryItem.isFile()) {
                 //Проверка расширения файла
                 if (!isMP3(directoryItem)) {
                     continue;
                 }
-                //System.out.println("File= " + directoryItem.getName());
-                if (artists.contains(new Artist(directoryItem))) //переопределить equels для сравнения
+                //Если такой артист уже есть в каталоге, то запрашиваем этого артиста и пробуем добавить альбом
+                if (artists.contains(new Artist(directoryItem)))
                 {
-                    //System.out.println("Существующий " + directoryItem.getName() );
-                    //добавляем к артисту его альбомы с песнями, если такой артист уже существует
                     getArtist(directoryItem).addAlbum(directoryItem);
 
-                } else {
-                    //System.out.println("Новый " + directoryItem.getName()+ " " +(artists.contains(new Artist(directoryItem))));
+                }
+                //Иначе добавляем нового артиста
+                else {
+
                     artists.add(new Artist(directoryItem));
                 }
 
@@ -107,7 +109,7 @@ public class Catalog {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-
+        //Проверка, существует ли исполнитель переданной песни (файла)
         for (Artist artist : artists
                 ) {
             if (artist.getName().equals(tag.getFirst(FieldKey.ARTIST))) {

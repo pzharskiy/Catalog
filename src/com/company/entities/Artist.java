@@ -63,11 +63,12 @@ public class Artist {
     }
 
     void addAlbum(File directoryItem) {
+        //Если альбом существует, то запрашиваем альбом и добавляем в него песню
         if (albums.contains(new Album(directoryItem))) {
-            //System.out.println("Существующий альбом");
             getAlbum(directoryItem).addSong(directoryItem);
-        } else {
-            //System.out.println("новый альбом");
+        }
+        //Иначе добавляем новый альбом
+        else {
             albums.add(new Album(directoryItem));
         }
     }
@@ -88,7 +89,7 @@ public class Artist {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-
+        //Проверка, существует ли альбом переданной песни (файла)
         for (Album album : albums
                 ) {
             if (album.getTitle().equals(tag.getFirst(FieldKey.ALBUM))) {
