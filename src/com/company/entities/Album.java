@@ -101,6 +101,12 @@ public class Album {
     }
 
     void findDublicates() {
+        Map<String, List<Song>> map;
+        map = createMap();
+        printMap(map);
+    }
+
+    private Map<String, List<Song>> createMap() {
 
         //на основе списка с песнями создаем множество, чтобы каждая песня встречались лишь один раз без дублирования
         HashSet<Song> dublicates = new LinkedHashSet<>(songs);
@@ -116,15 +122,20 @@ public class Album {
                 List<Song> subList = new ArrayList<>();
                 for (Song dublicateSong : songs
                         ) {
-                    subList.add(dublicateSong);
+                    if (dublicateSong.equals(song)) {
+                        subList.add(dublicateSong);
+                    }
                 }
-                //Ключ и подсписок песен заносятся в карту
+                //Ключ и список песен заносятся в карту
                 map.put(song.getTitle(), subList);
 
             }
-
         }
+        return map;
+    }
 
+    private void printMap(Map map) {
+        //Переводим карту в множество для выводы информации
         Set<Map.Entry<String, List<Song>>> set = map.entrySet();
         List<Song> list;
         for (Map.Entry<String, List<Song>> me : set) {
@@ -137,9 +148,6 @@ public class Album {
                 System.out.println(song.getPath() + " ");
             }
             System.out.println("");
-
-
         }
-
     }
 }

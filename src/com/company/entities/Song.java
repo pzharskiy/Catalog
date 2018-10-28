@@ -65,8 +65,8 @@ public class Song {
     }
 
     String printToFile() {
-        String html = null;
-        return html += "" + title + " " + duration + " " + "<a href=" + song.getPath() + ">" + song.getPath() + "</a> <br>";
+        String html = "" + title + " " + duration + " " + "<a href=" + song.getPath() + ">" + song.getPath() + "</a> <br>";
+        return html;
     }
 
     File getSong() {
