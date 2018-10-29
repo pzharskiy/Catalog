@@ -14,8 +14,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Catalog {
     List<Artist> artists = new ArrayList<>();
@@ -142,4 +141,57 @@ public class Catalog {
         }
     }
 
+    public void findDublicatesWithoutCheckSum()
+    {
+        System.out.println("Дубликаты без контрольной суммой");
+        if (artists.isEmpty()) {
+            System.out.println("List of artists is empty");
+        } else {
+            Map<String, List<Song>> map=new HashMap<String, List<Song>>();
+            map=createMap();
+            printMap(map);
+        }
+    }
+
+    private Map<String, List<Song>> createMap() {
+        Map<String, List<Song>> map = new HashMap<String, List<Song>>();
+        List<Song> list = new ArrayList<>();
+        for (Artist artist : artists
+                ) {
+            list.addAll(artist.findDublicatesWithoutCheckSum());
+        }
+        for (Song song : list
+                ) {
+            List<Song> subList = new ArrayList<>();
+            if (!map.containsKey(song.getTitle())) {
+                for (Song songItem : list
+                        ) {
+                    if (songItem.getTitle().equals(song.getTitle()) && songItem.getAlbum().equals(song.getAlbum()) && songItem.getArtist().equals(song.getArtist()) ) {
+
+                        subList.add(songItem);
+                    }
+                }
+            } else continue;
+            map.put(song.getTitle(), subList);
+        }
+        return map;
+    }
+
+    private void printMap(Map map)
+    {
+        Set<Map.Entry<String, List<Song>>> set = map.entrySet();
+        List<Song> helpList;
+        for (Map.Entry<String, List<Song>> me : set) {
+            helpList = me.getValue();
+            System.out.println(helpList.get(0).getTitle());
+            if ( me.getValue().size()>1)
+            {
+                for (Song song : helpList
+                        ) {
+                    System.out.println(song.getPath() + " ");
+                }
+            }
+        }
+    }
 }
+

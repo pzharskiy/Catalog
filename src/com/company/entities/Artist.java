@@ -11,8 +11,7 @@ import org.jaudiotagger.tag.TagException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Artist {
     private String name;
@@ -126,5 +125,15 @@ public class Artist {
                 ) {
             album.findDublicates();
         }
+    }
+
+    List<Song> findDublicatesWithoutCheckSum() {
+        List<Song> list = new ArrayList<>();
+        //Вернуть список со всеми песнями и распределить их по карте по ключу - контрольной сумме
+        for (Album album : albums
+                ) {
+            list.addAll(album.findDublicatesWithoutCheckSum());
+        }
+        return list;
     }
 }

@@ -150,4 +150,14 @@ public class Album {
             System.out.println("");
         }
     }
+
+    List<Song> findDublicatesWithoutCheckSum()
+    {
+        List<Song> list=new ArrayList<>();
+        for (Song song : songs
+                ) {
+            list.add(song);
+        }
+        return list;
+    }
 }
