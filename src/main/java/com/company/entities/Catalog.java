@@ -104,25 +104,11 @@ public class Catalog {
 
     public Artist getArtist(File directoryItem) {
 
-        AudioFile audioFile = null;
-        try {
-            audioFile = AudioFileIO.read(directoryItem);
-        } catch (CannotReadException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TagException e) {
-            e.printStackTrace();
-        } catch (ReadOnlyFileException e) {
-            e.printStackTrace();
-        } catch (InvalidAudioFrameException e) {
-            e.printStackTrace();
-        }
-        Tag tag = audioFile.getTag();
+        Artist checkingArtist= new Artist(directoryItem);
         //Проверка, существует ли исполнитель переданной песни (файла)
         for (Artist artist : artists
                 ) {
-            if (artist.getName().equals(tag.getFirst(FieldKey.ARTIST))) {
+            if (artist.getName().equals(checkingArtist.getName())) {
                 return artist;
             }
         }

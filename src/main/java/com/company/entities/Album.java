@@ -73,11 +73,6 @@ public class Album {
 
     void addSong(File directoryItem) {
         songs.add(new Song(directoryItem));
-///////////////////////////////////////////////////////////////////////////////////
-//        Song newSong=new Song(directoryItem);
-//        List<Song> newList=new ArrayList<Song>();
-//        newList.add(newSong);
-//        map.put(newSong.getTitle(),newList);
     }
 
     public boolean equals(Object object) {

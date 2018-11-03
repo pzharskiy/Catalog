@@ -38,7 +38,6 @@ public class Artist {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-
         if (tag.getFirst(FieldKey.ARTIST).equals(""))
         {
             this.name="Unknown artist";
@@ -80,25 +79,11 @@ public class Artist {
     }
 
     Album getAlbum(File directoryItem) {
-        AudioFile audioFile = null;
-        try {
-            audioFile = AudioFileIO.read(directoryItem);
-        } catch (CannotReadException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TagException e) {
-            e.printStackTrace();
-        } catch (ReadOnlyFileException e) {
-            e.printStackTrace();
-        } catch (InvalidAudioFrameException e) {
-            e.printStackTrace();
-        }
-        Tag tag = audioFile.getTag();
+        Album checkingAlbum=new Album(directoryItem);
         //Проверка, существует ли альбом переданной песни (файла)
         for (Album album : albums
                 ) {
-            if (album.getTitle().equals(tag.getFirst(FieldKey.ALBUM))) {
+            if (album.getTitle().equals(checkingAlbum.getTitle())) {
                 return album;
             }
         }
