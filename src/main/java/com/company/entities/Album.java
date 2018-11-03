@@ -56,15 +56,13 @@ public class Album {
     }
 
     String printToFile() {
-        String html = "" + title + "\n";
-        html += " <p>\n ";
+        StringBuilder html= new StringBuilder("" + title + "\n <p>\n ");
         for (Song song : songs
                 ) {
-
-            html += song.printToFile();
+            html.append(song.printToFile());
         }
-        html += "</p>\n";
-        return html;
+        html.append("</p>\n");
+        return html.toString();
     }
 
     String getTitle() {

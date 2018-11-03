@@ -10,7 +10,7 @@ public class Main {
 
         try {
             Catalog catalog = new Catalog("d:/catalogtest2/");
-            //catalog.printToFile();
+            catalog.printToFile();
             catalog.print();
            // catalog.findDublicates();
             //catalog.findDublicatesWithoutCheckSum();

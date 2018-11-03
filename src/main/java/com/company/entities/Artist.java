@@ -57,14 +57,13 @@ public class Artist {
     }
 
     String printToFile() {
-        String html = " <h3>\n " + name + " </h3>\n ";
-        html += "<h4>\n ";
+        StringBuilder html= new StringBuilder(" <h3>\n " + name + " </h3>\n <h4>\n ");
         for (Album album : albums
                 ) {
-            html += album.printToFile();
+            html.append(album.printToFile());
         }
-        html += "</h4>\n";
-        return html;
+        html.append("</h4>\n");
+        return html.toString();
     }
 
     void addAlbum(File directoryItem) {
