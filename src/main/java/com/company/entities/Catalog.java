@@ -140,7 +140,6 @@ public class Catalog {
         } else return false;
     }
 
-
     public void findDublicates() {
         if (artists.isEmpty()) {
             System.out.println("List of artists is empty");

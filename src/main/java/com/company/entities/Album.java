@@ -36,14 +36,14 @@ public class Album {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-        this.title = tag.getFirst(FieldKey.ALBUM);
+        if (tag.getFirst(FieldKey.ALBUM).equals(""))
+        {
+            this.title="Unknown album";
+        }
+        else {
+            this.title = tag.getFirst(FieldKey.ALBUM);
+        }
         songs.add(new Song(directoryItem));
-        /////////////////////////////////////////////////////////////////////////////////////
-//        Song newSong=new Song(directoryItem);
-//        List<Song> newList=new ArrayList<Song>();
-//        newList.add(newSong);
-//        map.put(newSong.getTitle(),newList);
-
     }
 
     void print() {

@@ -1,6 +1,5 @@
 package com.company.entities;
 
-import com.company.exceptions.EmptyFieldsOfFileExceptions;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -39,7 +38,14 @@ public class Artist {
             e.printStackTrace();
         }
         Tag tag = audioFile.getTag();
-        this.name = tag.getFirst(FieldKey.ARTIST);
+
+        if (tag.getFirst(FieldKey.ARTIST).equals(""))
+        {
+            this.name="Unknown artist";
+        }
+        else {
+            this.name = tag.getFirst(FieldKey.ARTIST);
+        }
         albums.add(new Album(directoryItem));
     }
 

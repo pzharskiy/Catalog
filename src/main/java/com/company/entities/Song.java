@@ -49,11 +49,24 @@ public class Song {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.title = tag.getFirst(FieldKey.TITLE);
+
+        if (tag.getFirst(FieldKey.TITLE).equals("")) {
+            this.title = "Unknown track";
+        } else {
+            this.title = tag.getFirst(FieldKey.TITLE);
+        }
+        if (tag.getFirst(FieldKey.ALBUM).equals("")) this.album = "Unknown album";
+        else {
+            this.album = tag.getFirst(FieldKey.ALBUM);
+        }
+        if (tag.getFirst(FieldKey.ARTIST).equals("")) {
+            this.artist = "Unknown artist";
+        } else {
+            this.artist = tag.getFirst(FieldKey.ARTIST);
+        }
         this.duration = Time.getDurationString(audioHeader.getTrackLength());
-        ///////////////////////////////
-        this.album = tag.getFirst(FieldKey.ALBUM);
-        this.artist = tag.getFirst(FieldKey.ARTIST);
+
+
     }
 
     void print() {
