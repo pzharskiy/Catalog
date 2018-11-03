@@ -1,6 +1,9 @@
 package com.company.entities;
 
 import com.company.entities.Artist;
+import com.company.exceptions.AccessException;
+import com.company.exceptions.NotExistingDirectoryException;
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -16,13 +19,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+
 public class Catalog {
+    private static final Logger logger = Logger.getLogger(Catalog.class.getName());
+
     List<Artist> artists = new ArrayList<Artist>();
 
-    public Catalog(String directory) {
+    public Catalog(String directory) throws NotExistingDirectoryException {
         File folder = new File(directory);
-        File listOfFiles[] = folder.listFiles();
-        treeTraversal(directory, listOfFiles); //Рекурсивный обход всего каталога
+        if (folder.exists() && folder.canRead() && !folder.isHidden()) {
+            File listOfFiles[] = folder.listFiles();
+            treeTraversal(directory, listOfFiles); //Рекурсивный обход всего каталога
+        }
+        else throw new NotExistingDirectoryException("Данной директории не существуют, или ее невозможно прочитать, или она является скрытой. Проверьте введенный вами путь");
     }
 
     public void print() {
@@ -60,34 +69,36 @@ public class Catalog {
         artists.add(new Artist(directoryItem));
     }
 
-    private void treeTraversal(String path, File listOfFiles[]) {
+    private void treeTraversal(String path, File listOfFiles[]) throws  AccessException{
         for (File directoryItem : listOfFiles) {
+            if (directoryItem.canRead() && !directoryItem.isHidden()) {
+                //????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
             //Если пункт каталога другой каталог, то вызываем рекурсивную функцию
-            if (directoryItem.isDirectory()) {
-                //System.out.println("DIR= " + directoryItem.getName() + " " + directoryItem.length());
-                File folder = new File(directoryItem.getPath());
-                File list[] = folder.listFiles();
-                treeTraversal(directoryItem.getPath(), list);
+                if (directoryItem.isDirectory()) {
+                    File folder = new File(directoryItem.getPath());
+                    File list[] = folder.listFiles();
+                    treeTraversal(directoryItem.getPath(), list);
+                }
+                //Если пункт каталога файл, то проверяем расширение (необходимо mp3)
+                if (directoryItem.isFile()) {
+                    //Проверка расширения файла
+                    if (!isMP3(directoryItem)) {
+                        continue;
+                    }
+                    //Если такой артист уже есть в каталоге, то запрашиваем этого артиста и пробуем добавить альбом
+                    if (artists.contains(new Artist(directoryItem))) {
+                        getArtist(directoryItem).addAlbum(directoryItem);
+
+                    }
+                    //Иначе добавляем нового артиста
+                    else {
+
+                        artists.add(new Artist(directoryItem));
+                    }
+
+                }
             }
-            //Если пункт каталога файл, то проверяем расширение (необходимо mp3)
-            if (directoryItem.isFile()) {
-                //Проверка расширения файла
-                if (!isMP3(directoryItem)) {
-                    continue;
-                }
-                //Если такой артист уже есть в каталоге, то запрашиваем этого артиста и пробуем добавить альбом
-                if (artists.contains(new Artist(directoryItem)))
-                {
-                    getArtist(directoryItem).addAlbum(directoryItem);
-
-                }
-                //Иначе добавляем нового артиста
-                else {
-
-                    artists.add(new Artist(directoryItem));
-                }
-
-            }
+            //else throw new AccessException("Нет доступа");
         }
     }
 
@@ -184,7 +195,7 @@ public class Catalog {
             helpList = me.getValue();
             // System.out.println(helpList.get(0).getTitle());
             if (me.getValue().size() > 1) {
-                dublicates.append(helpList.get(0).getArtist() + " " + helpList.get(0).getAlbum() + " " + helpList.get(0).getTitle() + ":\n");
+                dublicates.append("\n"+helpList.get(0).getArtist() + " " + helpList.get(0).getAlbum() + " " + helpList.get(0).getTitle() + ":\n");
                 for (Song song : helpList
                         ) {
                     dublicates.append("\t" + song.getPath() + "\n");
@@ -192,7 +203,7 @@ public class Catalog {
                 }
             }
         }
-        System.out.println(dublicates.toString());
+        logger.info(dublicates.toString());
     }
 }
 

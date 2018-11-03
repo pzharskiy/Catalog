@@ -1,5 +1,6 @@
 package com.company.entities;
 
+import com.company.exceptions.EmptyFieldsOfFileExceptions;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -23,6 +24,7 @@ public class Artist {
 
     Artist(File directoryItem) {
         AudioFile audioFile = null;
+
         try {
             audioFile = AudioFileIO.read(directoryItem);
         } catch (CannotReadException e) {
@@ -39,7 +41,6 @@ public class Artist {
         Tag tag = audioFile.getTag();
         this.name = tag.getFirst(FieldKey.ARTIST);
         albums.add(new Album(directoryItem));
-
     }
 
     void print() {

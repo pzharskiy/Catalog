@@ -1,5 +1,6 @@
 package com.company.entities;
 
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Album {
+    private static final Logger logger2= Logger.getLogger(Catalog.class.getName());
     private String title;
     private List<Song> songs = new ArrayList<Song>();
 //    Map<String,List<Song>> map = new HashMap<>();
@@ -139,17 +141,21 @@ public class Album {
         //Переводим карту в множество для выводы информации
         Set<Map.Entry<String, List<Song>>> set = map.entrySet();
         List<Song> list;
+        //Выводит еще три пустые строки!!
         int count = 1;
-        for (Map.Entry<String, List<Song>> me : set) {
-            list = me.getValue();
-            dublicates.append("Дубликаты-" + count + ":\n");
-            //System.out.println(list.get(0).getArtist() + " : " + list.get(0).getAlbum() + " :  " + list.get(0).getTitle());
-            for (Song song : list
-                    ) {
-                dublicates.append("\t" + song.getPath() + "\n");
+        if (!set.isEmpty()) {
+            for (Map.Entry<String, List<Song>> me : set) {
+                list = me.getValue();
+                dublicates.append("\nДубликаты-" + count + ":\n");
+                //System.out.println(list.get(0).getArtist() + " : " + list.get(0).getAlbum() + " :  " + list.get(0).getTitle());
+                for (Song song : list
+                        ) {
+                    dublicates.append("\t" + song.getPath() + "\n");
+                }
+                count++;
             }
-            System.out.println(dublicates.toString());
-            count++;
+
+            logger2.info(dublicates.toString());
         }
     }
 

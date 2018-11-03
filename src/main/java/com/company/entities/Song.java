@@ -18,7 +18,6 @@ import java.io.IOException;
 public class Song {
     private File song;
     private String title;
-    private int year;
     private String duration;
     private String checkSum;
     private String artist;
@@ -51,7 +50,6 @@ public class Song {
             e.printStackTrace();
         }
         this.title = tag.getFirst(FieldKey.TITLE);
-        this.year = Integer.valueOf(tag.getFirst(FieldKey.YEAR));
         this.duration = Time.getDurationString(audioHeader.getTrackLength());
         ///////////////////////////////
         this.album = tag.getFirst(FieldKey.ALBUM);
@@ -60,7 +58,6 @@ public class Song {
 
     void print() {
         System.out.println("название: " + title
-                + "\nгод: " + year
                 + "\nпродолжительность: " + duration + "\ncheckSum: " + checkSum + "\n");
     }
 
@@ -77,9 +74,6 @@ public class Song {
         return title;
     }
 
-    int getYear() {
-        return year;
-    }
 
     String getDuration() {
         return duration;
