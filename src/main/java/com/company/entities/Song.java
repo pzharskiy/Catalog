@@ -87,7 +87,6 @@ public class Song {
         return title;
     }
 
-
     String getDuration() {
         return duration;
     }

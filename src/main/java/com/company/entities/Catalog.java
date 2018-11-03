@@ -31,7 +31,7 @@ public class Catalog {
             File listOfFiles[] = folder.listFiles();
             treeTraversal(directory, listOfFiles); //Рекурсивный обход всего каталога
         }
-        else throw new NotExistingDirectoryException("Данной директории не существуют, или ее невозможно прочитать, или она является скрытой. Проверьте введенный вами путь");
+        else throw new NotExistingDirectoryException("Данной директории не существуют, она является скрытой, или ее невозможно прочитать. Проверьте введенный вами путь");
     }
 
     public void print() {
