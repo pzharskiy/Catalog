@@ -131,10 +131,12 @@ public class Catalog {
         if (artists.isEmpty()) {
             System.out.println("List of artists is empty");
         } else {
+            StringBuilder dublicates = new StringBuilder();
             for (Artist artist : artists
                     ) {
-                artist.findDublicates();
+                dublicates.append(artist.findDublicates());
             }
+            logger.info(dublicates.toString());
         }
     }
 

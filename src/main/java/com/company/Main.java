@@ -12,8 +12,8 @@ public class Main {
             Catalog catalog = new Catalog("d:/catalogtest2/");
             catalog.printToFile();
             catalog.print();
-           // catalog.findDublicates();
-            //catalog.findDublicatesWithoutCheckSum();
+            catalog.findDublicates();
+            catalog.findDublicatesWithoutCheckSum();
         }
         catch (AccessException  | NotExistingDirectoryException e)
         {

@@ -18,6 +18,7 @@ public class Album {
     private static final Logger logger2= Logger.getLogger(Catalog.class.getName());
     private String title;
     private List<Song> songs = new ArrayList<Song>();
+    public static int countOfDublicates=1;
 //    Map<String,List<Song>> map = new HashMap<>();
 
     Album(File directoryItem) {
@@ -95,10 +96,10 @@ public class Album {
         }
     }
 
-    void findDublicates() {
+    String findDublicates() {
         Map<String, List<Song>> map;
         map = createMap();
-        printMap(map);
+        return printMap(map);
     }
 
     private Map<String, List<Song>> createMap() {
@@ -129,27 +130,24 @@ public class Album {
         return map;
     }
 
-    private void printMap(Map map) {
+    private String printMap(Map map) {
         StringBuilder dublicates = new StringBuilder();
         //Переводим карту в множество для выводы информации
         Set<Map.Entry<String, List<Song>>> set = map.entrySet();
         List<Song> list;
-        //Выводит еще три пустые строки!!
-        int count = 1;
         if (!set.isEmpty()) {
             for (Map.Entry<String, List<Song>> me : set) {
                 list = me.getValue();
-                dublicates.append("\nДубликаты-" + count + ":\n");
-                //System.out.println(list.get(0).getArtist() + " : " + list.get(0).getAlbum() + " :  " + list.get(0).getTitle());
+                dublicates.append("\nДубликаты-" + countOfDublicates + ":\n");
                 for (Song song : list
                         ) {
+
                     dublicates.append("\t" + song.getPath() + "\n");
                 }
-                count++;
+                countOfDublicates++;
             }
-
-            logger2.info(dublicates.toString());
         }
+        return dublicates.toString();
     }
 
     List<Song> findDublicatesWithoutCheckSum() {

@@ -1,5 +1,6 @@
 package com.company.entities;
 
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -111,11 +112,13 @@ public class Artist {
         }
     }
 
-    void findDublicates() {
+    String findDublicates() {
+        StringBuilder dublicates = new StringBuilder();
         for (Album album : albums
                 ) {
-            album.findDublicates();
+            dublicates.append(album.findDublicates());
         }
+        return  dublicates.toString();
     }
 
     List<Song> findDublicatesWithoutCheckSum() {
